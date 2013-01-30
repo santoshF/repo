@@ -31,11 +31,12 @@ printf("ErroR...");
 }
 else{
 MAX_ITER = atoi(argv[1]);
-
+//r = MAX_ITER;
 time_t t1,t2;
 t1 = (double) time(NULL);
 for(i=0;i <MAX_ITER;i++){
-squareRoot(r);//Call Function 
+squareRoot(r);//Call Function
+r--;
 }
 t2 = (double) time(NULL);
 printf("\nThe Total time = %f  \n",difftime(t2,t1));
@@ -47,23 +48,25 @@ void squareRoot(double root){
 int i=0;
 double x[MAX],x1,x2,initial,delta ,cond;
 
-x[0] = 0;
-x[1] = root / 2;
+x[0] = 0; //Initialize 0 th position as x -1 for x[1] is 0
+x[1] = root / 2; // initial root given root by 2
 
   for(i = 1 ; i < MAX_ITER ; i++) {
- x1 =  x[i];
+ x1 =  x[i];//assign x1 to x[1]
 
-x2 = x[i-1];
-cond = x2 - x1;
+x2 = x[i-1]; //assign x2 to x[0]
+cond = x2 - x1;//check for tol.
 
  if(fabs(cond) > tol  ) {
   delta  =  root/x[i]; 
   x[i+1] = (x[i] + delta) / 2;
 
 }else {
- break;
+ break;//if greater than tolerance
 }
+printf("Root is ",x[i+1]);
 }
+
 }
 
 

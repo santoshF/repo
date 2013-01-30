@@ -14,56 +14,73 @@
 #include<stdlib.h>
 #include<time.h>
 #define MAX 100
-#define MAX_ITER 10000
+// MAX_ITER 100000
 #define tol 0.00001
+void graph(char*);
 void squareRoot(double);
-int main(){
+ 
+long long int MAX_ITER;
+
+int main(int argc,char * argv[]){
+FILE *fp;
+char *filename;
 int i;
-long double r=10025;
-time_t t1,t2;
-for(i=0;i <MAX_ITER;i++){
-r += 10050000000;
-t1 = (double) time(NULL);
-squareRoot(r);
-t2 = (double) time(NULL);
-printf("\nFor %Lf number,The Total time = %f for iteration %d \n",r,difftime(t2,t1),i);
+long double r = 123456789012345678;
+long long int MAX_ITER = 1000;
+if(argc != 2){
+printf("ErroR...");
 }
+else{
+filename = argv[1];
+fp = fopen(filename,"w");
+MAX_ITER *= 100;
+time_t t1,t2;
+t1 = (double) time(NULL);
+for(i=0;i <MAX_ITER || MAX_ITER < 1000000;i++){
+squareRoot(r);//Call Function 
+}
+t2 = (double) time(NULL);
 
-
+printf("\nThe Total time = %f  \n",difftime(t2,t1));
+fprintf(fp,"%Ld  %f",MAX_ITER,difftime(t2,t1));
+graph(filename);
+}
 return 0;
 }
 void squareRoot(double root){
 int i=0;
 double x[MAX],x1,x2,initial,delta ,cond;
 
-//printf("Enter the number to find square root: \n");
-//scanf("%lf",&root);
-
 x[0] = 0;
 x[1] = root / 2;
-//delta  =  root/initial; 
-//x[0] = (initial + delta) / 2; 
-//for(i = 0 ; i < MAX_ITER ; i++) {
-//cond = x[i] -x[i+1];
-//printf()
-//while ( ( cond ) <  tol ) {
- 
- printf("\n %d  \t %lf  \n",i,x[i+1]); 
+
   for(i = 1 ; i < MAX_ITER ; i++) {
  x1 =  x[i];
-// printf("\n %d  \t %lf  \n",i,x[i+1]); 
+
 x2 = x[i-1];
 cond = x2 - x1;
-   // printf("\nx[%d] = %lf  x[%d+1] %lf ",i,x[i],i,x[i+1]);
-//  printf("The condition %lf",cond);
- // printf("check condition value %lf",cond);
+
  if(fabs(cond) > tol  ) {
   delta  =  root/x[i]; 
   x[i+1] = (x[i] + delta) / 2;
- printf("\n %d  \t %lf  \n",i,x[i+1]); 
+
 }else {
  break;
 }
 }
 }
+void graph(char *file){
+
+char * cmd[] = {"set title \"Graph \"","set xlabel \" Time \" ","set ylabel \" Number of times program run \""};
+FILE * temp = fopen("file","r");
+FILE * gnuPlot= popen("gnuplot -persistent","w");
+int i;
+for(i=0;i<3;i++)
+ {
+  fprintf(gnuPlot,"%s \n",cmd[i]);
+}
+fprintf(gnuPlot,"plot '%s' using 2:4 w l \n",file);
+
+exit(0);
+}     
 
